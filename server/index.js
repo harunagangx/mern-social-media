@@ -8,10 +8,13 @@ import helmet from 'helmet';
 import morgan from 'morgan';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { register } from './controllers/authController.js';
+import { createPost } from './controllers/postController.js';
 
 // IMPORT API ROUTES
-import authRoutes from './routes/authRoute.js';
-import userRoutes from './routes/userRoute.js';
+import authRoute from './routes/authRoute.js';
+import userRoute from './routes/userRoute.js';
+import postRoute from './routes/postRoute.js';
 
 // CONFIGURATIONS
 const _filename = fileURLToPath(import.meta.url);
@@ -39,9 +42,15 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage });
 
+// ROUTES WITH FILES
+app.post('/api/auth/register', upload.single('picture'), register);
+app.post('/api/posts/', upload.single('picture'), createPost);
+
 // ROUTES
-app.use('/api/auth', authRoutes);
-app.use('/api/users', userRoutes);
+
+app.use('/api/auth', authRoute);
+app.use('/api/users', userRoute);
+app.use('/api/posts', postRoute);
 
 // MONGOOSE SETUP
 
