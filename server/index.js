@@ -9,6 +9,10 @@ import morgan from 'morgan';
 import path from 'path';
 import { fileURLToPath } from 'url';
 
+// IMPORT API ROUTES
+import authRoutes from './routes/authRoute.js';
+import userRoutes from './routes/userRoute.js';
+
 // CONFIGURATIONS
 const _filename = fileURLToPath(import.meta.url);
 const _dirname = path.dirname(_filename);
@@ -18,7 +22,7 @@ app.use(express.json());
 app.use(express.urlencoded({ limit: '30mb', extended: true }));
 app.use(helmet());
 app.use(helmet.crossOriginResourcePolicy({ policy: 'cross-origin' }));
-app.use(morgan('common'));
+app.use(morgan('dev'));
 app.use(bodyParser.json({ limit: '30mb', extend: true }));
 app.use(cors());
 app.use('/assets', express.static(path.join(_dirname, 'public/assets')));
@@ -36,6 +40,8 @@ const storage = multer.diskStorage({
 const upload = multer({ storage });
 
 // ROUTES
+app.use('/api/auth', authRoutes);
+app.use('/api/users', userRoutes);
 
 // MONGOOSE SETUP
 
