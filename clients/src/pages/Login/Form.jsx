@@ -63,7 +63,7 @@ const Form = () => {
     formData.append('picturePath', values.picture.name);
 
     const savedUserResponse = await fetch(
-      'http://localhost:3001/auth/register',
+      'http://localhost:3001/api/auth/register',
       {
         method: 'POST',
         body: formData,
@@ -78,11 +78,14 @@ const Form = () => {
   };
 
   const login = async (values, onSubmitProps) => {
-    const loggedInResponse = await fetch('http://localhost:3001/auth/login', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(values),
-    });
+    const loggedInResponse = await fetch(
+      'http://localhost:3001/api/auth/login',
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(values),
+      }
+    );
     const loggedIn = await loggedInResponse.json();
     onSubmitProps.resetForm();
     if (loggedIn) {
@@ -143,7 +146,7 @@ const Form = () => {
                   label="Last Name"
                   onBlur={handleBlur}
                   onChange={handleChange}
-                  value={values.firstName}
+                  value={values.lastName}
                   name="lastName"
                   error={Boolean(touched.lastName) && Boolean(errors.lastName)}
                   helperText={touched.lastName && errors.lastName}
@@ -196,7 +199,7 @@ const Form = () => {
             )}
 
             <TextField
-              abel="Email"
+              label="Email"
               onBlur={handleBlur}
               onChange={handleChange}
               value={values.email}
@@ -206,7 +209,7 @@ const Form = () => {
               sx={{ gridColumn: 'span 4' }}
             />
             <TextField
-              abel="Password"
+              label="Password"
               onBlur={handleBlur}
               onChange={handleChange}
               value={values.password}
